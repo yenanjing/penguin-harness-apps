@@ -1,3 +1,4 @@
+/// <reference path="./node-builtins.d.ts" />
 // The paper workbench's handler. A project is a folder of LaTeX source kept in this workbench's
 // own state; compiling stages it in a temporary directory, runs a TeX engine, and keeps the PDF,
 // the log's diagnostics and the SyncTeX map for the page to read back. The Agent is asked for
@@ -29,6 +30,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { randomUUID } from "node:crypto";
 import { gunzipSync } from "node:zlib";
+import { Buffer } from "./bytes.js";
 import {
   EditRefused,
   applyReplacements,
@@ -109,16 +111,37 @@ function findFile(project: Project, relative: string): StoredFile | null {
   return project.files.find((file) => file.path === relative) ?? null;
 }
 
-/** Replacement rows as the page sends them; a row without a usable range is left to be refused. */
-function readEdits(rows: readonly unknown[]) {
+/**
+ * Replacement rows as the page sends them; a row without a usable range is left to be refused.
+ * The Agent names the new text `replacement`, while a review comment names it `text`, so both are
+ * read: mistaking one for a missing value would delete the quoted lines instead of replacing them.
+ * A row that carries only a quote is located from it, because that is all the model is asked to
+ * copy verbatim.
+ */
+function readEdits(rows: readonly unknown[], source = "") {
   return rows.map((row) => {
     const record = row as Record<string, unknown>;
-    return {
-      startLine: Number(record.startLine),
-      endLine: Number(record.endLine),
-      text: typeof record.text === "string" ? record.text : "",
-      quote: typeof record.quote === "string" ? record.quote : undefined,
-    };
+    const quote = typeof record.quote === "string" ? record.quote : undefined;
+    const text =
+      typeof record.text === "string"
+        ? record.text
+        : typeof record.replacement === "string"
+          ? record.replacement
+          : "";
+    let startLine = Number(record.startLine);
+    let endLine = Number(record.endLine);
+    if (
+      (!Number.isInteger(startLine) || startLine < 1) &&
+      quote !== undefined &&
+      quote !== "" &&
+      source !== ""
+    ) {
+      const found = locateQuote(source, quote);
+      if (found === null) throw new EditRefused("quoteMismatch");
+      startLine = found.startLine;
+      endLine = found.endLine;
+    }
+    return { startLine, endLine, text, quote };
   });
 }
 
@@ -174,14 +197,8 @@ function run(command: string, args: readonly string[], cwd: string) {
       child.kill("SIGKILL");
       err += `\ntimed out after ${ENGINE_TIMEOUT} ms`;
     }, ENGINE_TIMEOUT);
-    child.stdout?.on(
-      "data",
-      (chunk: Buffer) => (out += chunk.toString("utf8")),
-    );
-    child.stderr?.on(
-      "data",
-      (chunk: Buffer) => (err += chunk.toString("utf8")),
-    );
+    child.stdout?.on("data", (chunk) => (out += chunk.toString("utf8")));
+    child.stderr?.on("data", (chunk) => (err += chunk.toString("utf8")));
     child.on("error", (error: Error) => {
       clearTimeout(timer);
       err += `\n${error.message}`;
@@ -683,7 +700,7 @@ export default {
             const engine = engines[0]!;
             const result = await typeset(dir, project, engine);
             const relative = relativeTo(dir, project.files);
-            build = {
+            const built: Build = {
               stamp: project.stamp,
               ok: result.pdf !== null,
               engine,
@@ -701,7 +718,8 @@ export default {
               ],
               pdf: result.pdf,
             };
-            return build;
+            build = built;
+            return built;
           } finally {
             await rm(dir, { recursive: true, force: true });
           }
@@ -902,7 +920,10 @@ export default {
                   if (file === null) return json({ error: "missing" }, 404);
                   const edits = Array.isArray(body?.edits) ? body.edits : [];
                   try {
-                    const next = applyReplacements(file.data, readEdits(edits));
+                    const next = applyReplacements(
+                      file.data,
+                      readEdits(edits, file.data),
+                    );
                     return json({
                       ok: true,
                       rows: diffLines(file.data, next),
@@ -929,7 +950,7 @@ export default {
                     try {
                       next = applyReplacements(
                         file.data,
-                        readEdits(body.edits),
+                        readEdits(body.edits, file.data),
                       );
                     } catch (error) {
                       if (error instanceof EditRefused)

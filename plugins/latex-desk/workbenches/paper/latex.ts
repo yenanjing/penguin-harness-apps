@@ -1,3 +1,4 @@
+/// <reference path="./node-builtins.d.ts" />
 // The paper workbench's core, kept apart from the host wiring so it can be tested on its own:
 // a project is a folder of source files, a ZIP that travels in and out unchanged, a compile
 // whose log names the file and line at fault, SyncTeX points from source to PDF, and the

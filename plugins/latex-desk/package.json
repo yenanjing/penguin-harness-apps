@@ -1,6 +1,6 @@
 {
   "name": "@penguinharness/latex-desk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A LaTeX paper workbench: import an Overleaf project, compile it to PDF beside the source, and edit it with an Agent that proposes review comments and diffs.",
   "keywords": [
     "penguin-plugin",

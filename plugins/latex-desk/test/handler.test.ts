@@ -198,6 +198,41 @@ describe("the paper workbench handler", () => {
     expect(stale.body.error).toBe("quoteMismatch");
   });
 
+  it("applies the Agent's replacement field instead of deleting the quoted lines", async () => {
+    const wb = open();
+    await wb.call("POST", "/import", { name: "Paper", files: PAPER });
+    const applied = await wb.call("POST", "/edits", {
+      path: "sections/intro.tex",
+      edits: [
+        {
+          startLine: 2,
+          endLine: 2,
+          quote: "We ran eight tasks.",
+          replacement: "We ran nine tasks.",
+        },
+      ],
+    });
+
+    expect(applied.status).toBe(200);
+    expect(applied.body.data).toBe(
+      "\\section{Introduction}\nWe ran nine tasks.\n",
+    );
+  });
+
+  it("locates an edit that carries only the quoted source", async () => {
+    const wb = open();
+    await wb.call("POST", "/import", { name: "Paper", files: PAPER });
+    const applied = await wb.call("POST", "/edits", {
+      path: "sections/intro.tex",
+      edits: [{ quote: "We ran eight tasks.", text: "We ran ten tasks." }],
+    });
+
+    expect(applied.status).toBe(200);
+    expect(applied.body.data).toBe(
+      "\\section{Introduction}\nWe ran ten tasks.\n",
+    );
+  });
+
   it("exports the project as a ZIP that imports back to the same files", async () => {
     const wb = open();
     await wb.call("POST", "/import", { name: "Paper", files: PAPER });
