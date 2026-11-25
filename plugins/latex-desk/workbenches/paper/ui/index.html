@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>LaTeX Paper Desk</title>
+    <link rel="stylesheet" href="/workbench-ui.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="app.js"></script>
+  </head>
+  <body>
+    <header class="bar">
+      <div class="brand">
+        <img alt="" src="icon.svg" />
+        <div>
+          <h1 id="title">LaTeX Paper Desk</h1>
+          <p class="wb-muted" id="subtitle"></p>
+        </div>
+      </div>
+      <div class="bar-tools">
+        <span class="wb-badge" id="engine" data-tone="neutral"></span>
+        <button id="lang">中文</button>
+        <button id="sample" data-i="action.sample"></button>
+        <button id="import" data-i="action.import"></button>
+        <button id="export" data-i="action.export"></button>
+        <button
+          id="compile"
+          class="wb-primary"
+          data-i="action.compile"
+        ></button>
+        <input id="archive" type="file" accept=".zip,application/zip" hidden />
+      </div>
+    </header>
+
+    <p id="notice" class="notice" role="status" hidden></p>
+
+    <main class="layout">
+      <aside class="panel files" aria-labelledby="files-heading">
+        <h2 id="files-heading" data-i="files.title"></h2>
+        <div id="tree" class="tree"></div>
+        <p
+          id="files-empty"
+          class="wb-muted empty"
+          data-i="files.empty"
+          hidden
+        ></p>
+      </aside>
+
+      <section class="panel source">
+        <header class="panel-head">
+          <span id="current" class="wb-muted" data-i="files.none"></span>
+          <span class="row">
+            <span
+              id="dirty"
+              class="wb-badge"
+              data-tone="attention"
+              hidden
+            ></span>
+            <button id="save" data-i="action.save" disabled></button>
+          </span>
+        </header>
+        <div class="editor-wrap">
+          <div class="gutter" id="gutter" aria-hidden="true"></div>
+          <textarea
+            id="editor"
+            wrap="off"
+            spellcheck="false"
+            autocapitalize="off"
+            autocomplete="off"
+            placeholder=""
+          ></textarea>
+        </div>
+        <img id="asset" alt="" hidden />
+        <div class="diags">
+          <h2 data-i="diag.title"></h2>
+          <p id="diags-none" class="wb-muted empty" data-i="diag.none"></p>
+          <ul id="diags-list" class="rows"></ul>
+        </div>
+      </section>
+
+      <section class="panel preview">
+        <header class="panel-head">
+          <span id="pages" class="wb-muted"></span>
+          <span class="row">
+            <button id="locate" data-i="pdf.locate" hidden></button>
+            <button id="open-pdf" data-i="pdf.open" hidden></button>
+          </span>
+        </header>
+        <div class="pdf-wrap">
+          <iframe id="pdf" title="PDF"></iframe>
+          <p id="pdf-none" class="wb-muted empty" data-i="pdf.none"></p>
+        </div>
+
+        <div class="assistant">
+          <div class="assistant-head">
+            <h2 data-i="ai.title"></h2>
+            <span id="ai-status" class="wb-muted"></span>
+          </div>
+          <label class="instruction">
+            <input id="instruction" data-i-ph="ai.instruction" />
+          </label>
+          <div class="row actions">
+            <button data-kind="polish" data-i="ai.polish"></button>
+            <button data-kind="review" data-i="ai.review"></button>
+            <button data-kind="bib" data-i="ai.bib"></button>
+            <button data-kind="figure" data-i="ai.figure"></button>
+          </div>
+          <div id="assistant-out" class="assistant-out">
+            <p class="wb-muted empty" data-i="ai.empty"></p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

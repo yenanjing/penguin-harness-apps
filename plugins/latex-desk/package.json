@@ -1,0 +1,30 @@
+{
+  "name": "@penguinharness/latex-desk",
+  "version": "0.1.0",
+  "description": "A LaTeX paper workbench: import an Overleaf project, compile it to PDF beside the source, and edit it with an Agent that proposes review comments and diffs.",
+  "keywords": [
+    "penguin-plugin",
+    "workbench",
+    "latex",
+    "paper",
+    "writing"
+  ],
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Prism-Shadow",
+    "url": "https://github.com/Prism-Shadow"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Prism-Shadow/penguin-harness-apps.git",
+    "directory": "plugins/latex-desk"
+  },
+  "files": [
+    "icon.svg",
+    "workbenches",
+    "ifaces.json",
+    "LICENSE",
+    "README.md",
+    "README.zh.md"
+  ]
+}

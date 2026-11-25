@@ -14,6 +14,7 @@
 | [雪线滑手](plugins/penguin-snowboard/README.zh.md) | 企鹅踩板滑过南极雪脊，腾空翻转并平稳着陆得分 | 原创工作台 |
 | [学习框图](plugins/study-map/README.zh.md) | 把代码或文档变成可逐行核对的交互框图 | [Archify](https://github.com/tt-a1i/archify) |
 | [全球总决赛主题曲](plugins/worlds-anthems/README.zh.md) | 通过 SoundCloud 播放八首全球总决赛主题曲及官方改编版本 | PenguinHarness 示例任务 |
+| [LaTeX 论文写作台](plugins/latex-desk/README.zh.md) | 像 Overleaf 一样管理论文工程，源码旁看 PDF，编译消息归位到行，Agent 改写与审稿意见先看 Diff | 原创工作台 |
 
 原始代码中的提交记录保留了 Yaowei Zheng（hiyouga）及社区贡献者的署名。各包保留原有许可证、致谢、包名和工作台标识。角色对话依赖宿主的[应用数据目录](https://github.com/Prism-Shadow/penguin-harness/pull/1579)与[禁用工具的会话](https://github.com/Prism-Shadow/penguin-harness/pull/1588)，旧角色卡和记忆本的迁移方式见其说明。
 

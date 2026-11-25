@@ -14,6 +14,7 @@ These optional apps appear in the PenguinHarness App Center after installation. 
 | [Frostline](plugins/penguin-snowboard) | A penguin snowboard game with scored aerial tricks | Original workbench |
 | [Study Map](plugins/study-map) | Explore a repository or reading as a diagram with clickable source citations | [Archify](https://github.com/tt-a1i/archify) |
 | [Worlds Anthems](plugins/worlds-anthems) | Play eight Worlds songs and official arrangements through SoundCloud | PenguinHarness example task |
+| [LaTeX Paper Desk](plugins/latex-desk) | Overleaf-style paper projects with the PDF beside the source, compiler messages at their line, and Agent diffs and review comments | Original workbench |
 
 The linked source revisions retain contributor history, including Yaowei Zheng (hiyouga) and the original community submissions. Each package keeps its license, acknowledgments, package and workbench IDs. Character Chat needs the host’s [persistent app directories](https://github.com/Prism-Shadow/penguin-harness/pull/1579) and [talk-only Sessions](https://github.com/Prism-Shadow/penguin-harness/pull/1588). Its README explains how existing cards and memories move.
 

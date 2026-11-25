@@ -1,0 +1,54 @@
+{
+ "hash": "f7917d027cf95d696099fc4ad68a7dccf532eb69882e0365e19b00f86fc23c36",
+ "ifaces": {
+  "@penguinharness/latex-desk#LatexDeskPlugin": {
+   "name": "LatexDeskPlugin",
+   "methods": {},
+   "slots": {}
+  }
+ },
+ "types": {},
+ "modules": {
+  "LatexDeskPlugin": {
+   "name": "LatexDeskPlugin",
+   "kind": "component",
+   "requires": {},
+   "provides": {
+    "LatexDeskPlugin": "@penguinharness/latex-desk#LatexDeskPlugin"
+   },
+   "contributes": {
+    "PluginLibraryModule.cards": [
+     {
+      "id": "latex-desk.card",
+      "title": "LaTeX Paper Desk",
+      "titleZh": "论文写作台",
+      "descriptionZh": "论文写作台：无损导入导出 Overleaf / 标准 LaTeX 工程 ZIP，在源码与 PDF 双栏里管理多 .tex、图、表和 .bib；内置 Tectonic 或 TeX Live 编译，报错精确到文件与行号；让 Agent 按章节润色、整理参考文献、编排实验图表，并对全文给出带类别与严重度的审阅意见，点一条就跳到对应源码，一键采纳改动后重新编译。",
+      "shortDescription": "Write, review and typeset a paper beside its PDF, with comments that jump to the line.",
+      "shortDescriptionZh": "在 PDF 旁写、审、编译论文，审阅意见一点就跳到源码行。",
+      "category": "office-productivity",
+      "icon": "icon.svg",
+      "preinstall": false,
+      "quickStart": {
+       "prompt": "Open the sample paper, polish the introduction for a more formal register, then review the whole paper and apply the two most serious comments.",
+       "promptZh": "打开论文写作台的样例论文，把引言润色得更正式一些，再通篇审阅一遍，把最严重的那两条意见采纳掉。"
+      }
+     }
+    ],
+    "PluginLibraryModule.workbenches": [
+     {
+      "id": "latex-desk.workbench.paper",
+      "name": "paper",
+      "path": "workbenches/paper"
+     }
+    ]
+   },
+   "children": []
+  }
+ },
+ "plugin": {
+  "modules": [
+   "LatexDeskPlugin"
+  ],
+  "replaces": []
+ }
+}

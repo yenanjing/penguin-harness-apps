@@ -1,0 +1,43 @@
+{
+  "name": "latex-desk-workbench",
+  "version": "1.0.0",
+  "type": "module",
+  "penguin": {
+    "version": "2026.11.23.1",
+    "appCenter": {
+      "show": true,
+      "title": "LaTeX Paper Desk",
+      "titleZh": "论文写作台",
+      "icon": "ui/icon.svg"
+    },
+    "modules": [
+      {
+        "name": "Workbench",
+        "requires": {
+          "host": {
+            "iface": "@prismshadow/penguin-server#WorkbenchHost",
+            "from": "Host"
+          }
+        },
+        "provides": {
+          "main": "@prismshadow/penguin-server#WorkbenchMain"
+        },
+        "contributes": {
+          "WebModule.sessionTabs": [
+            {
+              "id": "latex-desk.main",
+              "key": "main",
+              "title": "LaTeX Paper Desk",
+              "titleZh": "论文写作台",
+              "renderer": {
+                "iframe": {
+                  "src": "ui/index.html"
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
